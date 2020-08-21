@@ -1,13 +1,30 @@
 package life;
 
+import java.io.IOException;
+
 public class Controller {
-    public Universe iterateGenerations(Universe board, int generations) {
+    public void iterateGenerations(Universe board, int generations) {
         Universe finalGen = board;
         for (int i = 0; i < generations; i++) {
             finalGen = newGeneration(finalGen);
+            try {
+                if (System.getProperty("os.name").contains("Windows"))
+                    new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+                else
+                    Runtime.getRuntime().exec("clear");
+            }
+            catch (IOException | InterruptedException e) {
+                System.out.println("Error: " + e);
+            }
+            System.out.printf("Generation #%d\n", i + 1);
+            System.out.println("Alive: " + finalGen.aliveCount());
+            finalGen.print();
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                System.out.println("Error: " + e);
+//            }
         }
-
-        return finalGen;
     }
 
     private Universe newGeneration(Universe board) {

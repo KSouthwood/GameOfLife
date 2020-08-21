@@ -4,20 +4,18 @@ import java.util.Random;
 
 public class Universe {
     private static int size;
-    private static Random rnd;
     private boolean[][] board;
+
+    Universe(int boardSize, Random rnd) {
+        size = boardSize;
+        initialize(rnd);
+    }
 
     Universe() {
         board = new boolean[size][size];
     }
 
-    Universe(int boardSize, long seed) {
-        rnd = new Random(seed);
-        size = boardSize;
-        create();
-    }
-
-    private void create() {
+    private void initialize(Random rnd) {
         board = new boolean[size][size];
 
         for (int row = 0; row < size; row++) {
@@ -73,5 +71,19 @@ public class Universe {
         }
 
         return pos;
+    }
+
+    public int aliveCount() {
+        int alive = 0;
+
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                if (board[row][col]) {
+                    alive++;
+                }
+            }
+        }
+
+        return alive;
     }
 }

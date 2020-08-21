@@ -35,3 +35,13 @@ Apply these rules to each cell to compute the next generation.
 Input data is now three numbers: `N` `S` `M`. `N` (which will be >0) is the size of the universe. `S` (a long) will be
 the seed for the Random object. `M` (which will be ≥0) is the number of generations to generate before outputting
 the last generation.
+
+#### Stage 3: Life goes by
+Since the universe and its laws work properly now, it's time to visualize evolution.
+
+Display the universe after each generation. We'll need to pause for a bit after each generation - use methods from
+`java.lang.Thread` - so we can see the results. Either output each generation one after the other, or clear the console
+before printing each generation.
+
+The only input is now a number for the size of the universe. The seed should now be random which means the initial board
+will be different each time we run the program.
