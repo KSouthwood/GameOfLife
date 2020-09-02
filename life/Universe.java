@@ -4,49 +4,81 @@ import java.util.Random;
 
 public class Universe {
     private static int size;
-    private boolean[][] board;
+    private static Random rnd;
 
-    Universe(int boardSize, Random rnd) {
+    private boolean[][] board;
+    private int numberAlive;
+
+    Universe(int boardSize) {
         size = boardSize;
-        initialize(rnd);
+        rnd = new Random();
+        this.board = new boolean[boardSize][boardSize];
+        initialize();
+    }
+
+    Universe(int boardSize, long seed) {
+        size = boardSize;
+        rnd = new Random(seed);
+        this.board = new boolean[boardSize][boardSize];
+        initialize();
     }
 
     Universe() {
-        board = new boolean[size][size];
+        if (size > 0) {
+            board = new boolean[size][size];
+        } else {
+            System.out.println("Size is undefined!");
+        }
     }
 
-    private void initialize(Random rnd) {
-        board = new boolean[size][size];
+    private void initialize() {
+        numberAlive = 0;
 
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                board[row][col] = rnd.nextBoolean();
+                boolean state = rnd.nextBoolean();
+                board[row][col] = state;
+                numberAlive += state ? 1 : 0;
             }
         }
     }
 
-    public void setCell(int row, int col, boolean isAlive) {
-        board[row][col] = isAlive;
+    public Universe nextGeneration() {
+        Universe nextGen = new Universe();
+
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                nextGen.setCell(row, col, deadOrAlive(board[row][col], getNeighbors(row, col)));
+                nextGen.numberAlive += nextGen.isAlive(row, col) ? 1 : 0;
+            }
+        }
+
+        return nextGen;
     }
 
-    public boolean getCell(int row, int col) {
+    private boolean deadOrAlive(boolean cell, int neighbors) {
+        if (cell) {
+            // if currently alive, stay alive if there are two or three neighbors
+            return neighbors == 2 || neighbors == 3;
+        } else {
+            // if currently dead, be re-born if there are three neighbors
+            return neighbors == 3;
+        }
+    }
+
+    public void setCell(int row, int col, boolean alive) {
+        board[row][col] = alive;
+    }
+
+    public boolean isAlive(int row, int col) {
         return board[row][col];
-    }
-
-    public void print() {
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                System.out.print(board[row][col] ? "O" : " ");
-            }
-            System.out.println();
-        }
     }
 
     public int getSize() {
         return size;
     }
 
-    public int getNeighbors(int cellRow, int cellCol) {
+    private int getNeighbors(int cellRow, int cellCol) {
         int neighbors = 0;
 
         for (int row = -1; row < 2; row++) {
@@ -73,17 +105,7 @@ public class Universe {
         return pos;
     }
 
-    public int aliveCount() {
-        int alive = 0;
-
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                if (board[row][col]) {
-                    alive++;
-                }
-            }
-        }
-
-        return alive;
+    public int getNumberAlive() {
+        return numberAlive;
     }
 }
