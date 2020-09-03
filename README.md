@@ -45,3 +45,7 @@ before printing each generation.
 
 The only input is now a number for the size of the universe. The seed should now be random which means the initial board
 will be different each time we run the program.
+
+#### Stage 4: Looking good!
+Replace the console output with a window that displays the game field, the generation number, and the number of cells
+alive on the board. Use Java Swing components to create the window and associated components.

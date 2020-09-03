@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Universe board = null;
-        int gens = 30;
+        int gens = Integer.MAX_VALUE;
 
         final Scanner input = new Scanner(System.in);
         String[] params = input.nextLine().split(" ");
