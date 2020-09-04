@@ -8,14 +8,23 @@ public class Controller {
         Universe finalGen = board;
         int gen = 0;
         do {
-            gen++;
-            finalGen = finalGen.nextGeneration();
+            if (!window.isPaused()) {
+                gen++;
+                finalGen = finalGen.nextGeneration();
+            }
 //            consoleOutput(finalGen, gen);
             window.draw(gen, finalGen);
+
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 System.out.println("Error: " + e);
+            }
+
+            if (window.isResetBoard()) {
+                finalGen = new Universe(finalGen.getSize());
+                gen = 0;
+                window.clearResetBoard();
             }
         } while (gen < generations);
     }

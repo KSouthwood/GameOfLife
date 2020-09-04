@@ -7,6 +7,10 @@ public class GameOfLife extends JFrame {
     private final JLabel generations = new JLabel();
     private final JLabel numberAlive = new JLabel();
     private final JPanel boardGrid   = new JPanel();
+    private final JButton resetButton = new JButton();
+    private final JToggleButton pauseButton = new JToggleButton();
+
+    private boolean resetBoard = false;
 
     public GameOfLife() {
         setTitle("Game of Life");
@@ -16,19 +20,49 @@ public class GameOfLife extends JFrame {
         setLayout(null);
         setVisible(true);
 
-        generations.setName("GenerationLabel");
-        generations.setBounds(5, 5, 290, 20);
-        generations.setText("Generation #0");
-        add(generations);
-
-        numberAlive.setName("AliveLabel");
-        numberAlive.setBounds(5, 30, 290, 20);
-        numberAlive.setText("Alive: 0");
-        add(numberAlive);
+        addLabels();
+        addButtons();
 
         boardGrid.setBounds(4, 55, 500, 500);
         boardGrid.setBackground(Color.LIGHT_GRAY);
         add(boardGrid);
+    }
+
+    private void addLabels() {
+        generations.setName("GenerationLabel");
+        generations.setBounds(5, 5, 150, 20);
+        generations.setText("Generation #0");
+        add(generations);
+
+        numberAlive.setName("AliveLabel");
+        numberAlive.setBounds(5, 30, 150, 20);
+        numberAlive.setText("Alive: 0");
+        add(numberAlive);
+    }
+
+    private void addButtons() {
+        resetButton.setName("ResetButton");
+        resetButton.setText("Reset");
+        resetButton.setBounds(420, 5, 75, 45);
+        resetButton.addActionListener(actionEvent -> resetBoard = true);
+        add(resetButton);
+
+        pauseButton.setName("PlayToggleButton");
+        pauseButton.setText("Pause");
+        pauseButton.setBounds(340, 5, 75, 45);
+        add(pauseButton);
+    }
+
+    public boolean isPaused() {
+        return pauseButton.isSelected();
+    }
+
+    public boolean isResetBoard() {
+        return resetBoard;
+    }
+
+    public void clearResetBoard() {
+        this.resetBoard = false;
     }
 
     public void draw(int gen, Universe board) {

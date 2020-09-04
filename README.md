@@ -49,3 +49,7 @@ will be different each time we run the program.
 #### Stage 4: Looking good!
 Replace the console output with a window that displays the game field, the generation number, and the number of cells
 alive on the board. Use Java Swing components to create the window and associated components.
+
+#### Stage 5: Gamify it
+Add two more features to the GUI - two buttons to pause and resume the simulation; and to restart the simulation with a
+different initial state. Optionally, add more features as you wish.
